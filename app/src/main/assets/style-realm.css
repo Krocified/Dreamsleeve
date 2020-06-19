@@ -1,0 +1,118 @@
+.sr-banner{
+    background-image: url("./img/sr.jpg");
+    height: 50vw;
+    max-width: 100%;
+    background-attachment: fixed;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.ar-banner{
+    background-image: url("./img/ar.jpg");
+    height: 60vw;
+    max-width: 100%;
+    background-attachment: fixed;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.help-banner{
+    background-image: url("./img/help.jpg");
+    height: 50vw;
+    max-width: 100%;
+    background-attachment: fixed;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.ar-app-container {
+    background-color: #161616;
+    margin-top: -10px;
+    height: 200vw;
+}
+
+.help-app-container {
+    background-color: #161616;
+    margin-top: -10px;
+    height: 190vw;
+}
+
+.realm-text-container{
+    font-family: 'Staatliches';
+    font-size: 6vw;
+    margin-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.logo-container{
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 175px
+}
+
+.daedra-name-text{
+    font-family: 'Staatliches';
+    font-size: 8vw;
+    text-align: center;
+    padding-top: 5px;
+    /* padding-bottom: 5px; */
+}
+
+.complete-msg{
+    font-family: 'Staatliches';
+    font-size: 8vw;
+    text-align: center;
+    padding-top: 5px;
+    margin-bottom: 20px;
+}
+
+.daedra-realm-text{
+    font-family: 'Staatliches';
+    font-size: 6vw;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+.realm-icon{
+    margin-left: 20px;
+}
+
+.progress-bar{
+    margin: auto;
+    width: 80%;
+    padding-top: 20px;
+    margin-bottom: 20px
+}
+
+.item-container ion-progress-bar{
+    --buffer-background: #0C0032;
+    --progress-background: #3500D3;
+}
+
+.venture-button{
+    text-align: center;
+    font-family: 'Staatliches';
+    font-size: 6vw;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.button-container{
+    margin: auto;
+    margin-top: 10vw;
+    margin-bottom: 10vw;
+    display: block;
+    width: 60%;
+    background-color: #3500D3;
+    border-radius: 20px;
+}
+
+.help-title{
+    margin-top: 20vw;
+}

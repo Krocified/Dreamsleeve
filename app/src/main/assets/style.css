@@ -1,0 +1,103 @@
+body{
+    margin:0;
+}
+ 
+.parallax{
+    background-image: url("./img/ds.jpg");
+    height: 60vw;
+    background-attachment: fixed;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.app-container {
+    background-color: #161616;
+    margin-top: -10px;
+    height: auto+20vw;
+}
+
+.title-text-container{
+    margin-top: 7vw;
+    text-align: center;
+    font-family: 'Staatliches';
+    font-size: 10vw;
+}
+
+.text-container{
+    word-wrap: normal;
+    font-family: 'Staatliches';
+    font-size: 6vw;
+    margin-left: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.help-text-container{
+    word-wrap: break-word;
+    font-family: 'Staatliches';
+    font-size: 5vw;
+    margin-left: 15px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+
+.title{
+    margin-top: -5vw;
+}
+
+.sr-title{
+    margin-top: -14vw;   
+}
+
+.title-container{
+    margin-top: -25vw;
+}
+
+.outer-item-container{
+    margin-top: 3vw;
+    background-color: #0C0032;
+    height:auto;
+    border-radius: 30px;
+    padding-top: 10px;
+    padding-bottom: 25px;
+}
+
+.label-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.item-container{
+    margin-top: 3vw;
+    background-color: #190061;
+    height:auto;
+    border-radius: 30px;
+    padding: 10px;
+}
+
+.kro{
+    margin-top: 15vw;
+    text-align: center;
+    font-family: 'Staatliches';
+    font-size: 4vw;
+    padding-bottom: 3vw;
+}
+
+.transparent{
+    background-color: transparent;
+    border-color: transparent;
+}
+
+ion-toolbar {
+    --background: transparent;
+    --ion-color-base: transparent !important;
+ }
+
+ion-header {
+    box-shadow: none;
+}
+
+ion-header::after {
+    background-image: transparent;
+}
