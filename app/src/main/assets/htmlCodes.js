@@ -61,6 +61,34 @@ const homeHTML=`
 
         <ion-label color="light">
             <div class="title-text-container">
+                Journal
+            </div>
+        </ion-label>
+
+        <div class="outer-item-container">
+            <div class="item-container">
+                <ion-item 
+                    id="history" button 
+                    color="transparent" 
+                    lines="none" 
+                    onclick="buttonClick(this.id)"
+                >
+                    <ion-label color="light" class="label-container">
+                        <div class="label-container">
+                            <div class="text-container">
+                                <ion-icon name="albums-outline"></ion-icon>
+                            </div>
+                            <div class="text-container">
+                                History
+                            </div>
+                        </div>
+                    </ion-label>
+                </ion-item>
+            </div>
+        </div>
+
+        <ion-label color="light">
+            <div class="title-text-container">
                 Help and Guide
             </div>
         </ion-label>
@@ -152,7 +180,7 @@ const arHTML = `
     </ion-buttons>
 </ion-toolbar>
 </ion-header>
-<ion-content fullscreen onload="go()">
+<ion-content fullscreen >
 <div class="ar-app-container">
 <div class="sr-title">
     <div class="ar-banner"></div>
@@ -306,7 +334,7 @@ const detailHTML = `
     </ion-buttons>
 </ion-toolbar>
 </ion-header>
-<ion-content fullscreen >
+<ion-content fullscreen onload="checkRealm(${this.id})">
 <div class="ar-app-container">
 <div class="sr-title">
     <div class="ar-banner"></div>
@@ -334,6 +362,9 @@ const detailHTML = `
             <div id="d-realm" class="daedra-realm-text">
                 ${this.name}
             </div>
+        </ion-label>
+        <ion-label color="light">
+            <div id="d-is-successful" class="daedra-name-text"></div>
         </ion-label>
 
     </div>
@@ -395,3 +426,63 @@ const faqHTML = `
 </ion-content>
 `
 
+const histHTML = `
+<ion-header class="ion-no-border">
+<ion-toolbar transparent>
+    <ion-buttons slot="start">
+        <ion-back-button color="light" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+</ion-toolbar>
+</ion-header>
+<ion-content fullscreen >
+<div class="help-app-container">
+<div class="sr-title">
+    <div class="hist-banner"></div>
+    <div class="title-container">
+        <ion-item color="transparent" lines="none">
+            <ion-label color="light">
+                <div class="title-text-container">
+                    History
+                </div>
+            </ion-label>
+        </ion-item>
+    </div>
+</div>
+
+<div class="outer-item-container" >
+    <div class="item-container">
+
+    <ion-item id="hist-empty-msg" color="transparent" lines="none">
+        <div class="label-container">
+            <div class="help-text-container" style= "color: #ffffff;">
+                You have not taken any journey through Oblivion.
+            </div>
+        </div>
+    </ion-item>
+
+        <ion-list class="transparent">
+            ${histStatus.map(entry=>`
+                <ion-item id=${entry.id} color="transparent" lines="none" button onclick="">
+                    <div class="history-entry">
+                        <ion-label color="light">
+                            <div class="realm-text-container">
+                            ${entry.dateTime}
+                            </div>
+                        </ion-label>
+                        <ion-label color="light">
+                            <div class="realm-text-container">
+                            ${entry.type}
+                            </div>
+                        </ion-label>
+                    </div>
+                </ion-item>
+            `).join('\n')}
+        </ion-list>
+
+    </div>
+</div>
+
+</div>
+</ion-content>
+
+`

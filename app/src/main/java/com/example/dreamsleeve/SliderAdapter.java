@@ -20,21 +20,24 @@ public class SliderAdapter extends PagerAdapter {
     }
 
     public int[] slide_images = {
-            R.drawable.bowl,
-            R.drawable.laptop,
-            R.drawable.sleep
+            R.drawable.home,
+            R.drawable.ar,
+            R.drawable.sr,
+            R.drawable.hst
     };
 
     public String[] slide_head = {
-            "EAT",
-            "CODE",
-            "SLEEP"
+            "Main Menu",
+            "All Realms",
+            "Selective Realms",
+            "History"
     };
 
     public String[] slide_desc = {
-            "Eat 100 times a day, shit 100 times as well.",
-            "The pressure will kill yourself",
-            "Don't forget to take 100 pills before sleeping to ensure eternal slumber."
+            "Go through everything, or just several of the options.",
+            "Overall Progress, Results, and checks are visible on the screen. Click on any of the buttons to view the details of a particular check.",
+            "Select any realms you want to traverse to. The details and check selector will always be available on the screen.",
+            "List of previously run checks."
     };
 
     @Override

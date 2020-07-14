@@ -1,8 +1,8 @@
-function testRun(){
+testRun = () => {
     Android.testRun()
 }
 
-function buttonClick(clicked_id){
+buttonClick = (clicked_id) => {
     
     click = clicked_id.toString()
     
@@ -18,17 +18,52 @@ function buttonClick(clicked_id){
         Android.showTourSlides()
     } else if(click==="about"){
         Android.showAbout()
+    } else if(click==="history"){
+        nav.push('nav-history')
     } else {
         console.log(click)
     }
     Android.buttonClick(click)
 }
 
-function displayRealm(realm_id){
+let realmStatus = []
+let histStatus = []
+
+displayRealm = (realm_id) => {
     const realm = realms.find(realm=>realm.id===realm_id)
-    console.log(realm)
-    nav.push('nav-details', { realm })
-    Android.display("Display: "+realms[realm_id-1].name)
+
+    realmStatus=[]
+    const isSuccessful = Android.checkRealmSpecific()
+    // const isSuccessful = "YES"
+    checkData[realm_id-1] = isSuccessful
+
+    const realmObject = {
+        realmId: realm.id,
+        realmStatus: isSuccessful
+    }
+
+    realmStatus.push(realmObject)
+    let today = new Date();
+    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    let dateTime = date+' '+time;
+
+    const currState = {
+        id:histStatus.length+1,
+        type: "Selective Realms",
+        dateTime: dateTime,
+        status: realmStatus
+    }
+
+    histStatus.unshift(currState)
+
+    const singleJSON = JSON.stringify(currState)
+    console.log(singleJSON)
+    Android.display(singleJSON)
+    Android.testSessionData(singleJSON)
+    
+    nav.push('nav-details', { realm , isSuccessful})
+
 }
 
 customElements.define('nav-home', class NavHome extends HTMLElement{
@@ -102,7 +137,11 @@ customElements.define('nav-details', class NavDetails extends HTMLElement{
                     </div>
                 </ion-label>
 
-
+                <ion-label color="light">
+                    <div id="d-is-successful" class="daedra-name-text">
+                        ${this.isSuccessful}
+                    </div>
+                </ion-label>
             </div>
         </div>
         
@@ -145,7 +184,7 @@ customElements.define('nav-faq', class NavFaq extends HTMLElement{
                             id="faq-${faq.id}" button 
                             color="transparent" 
                             lines="none" 
-                            onclick="buttonClick(this.id)"
+                            onclick="viewFaqDetail(${faq.id})"
                         >
                             <div class="label-container">
                                 <div class="text-container">
@@ -168,6 +207,182 @@ customElements.define('nav-faq', class NavFaq extends HTMLElement{
     }
 })
 
+customElements.define('nav-history', class NavHist extends HTMLElement{
+    connectedCallback(){
+        this.innerHTML=`
+            <ion-header class="ion-no-border">
+            <ion-toolbar transparent>
+                <ion-buttons slot="start">
+                    <ion-back-button color="light" defaultHref="/"></ion-back-button>
+                </ion-buttons>
+            </ion-toolbar>
+            </ion-header>
+            <ion-content fullscreen >
+            <div class="help-app-container">
+            <div class="sr-title">
+                <div class="hist-banner"></div>
+                <div class="title-container">
+                    <ion-item color="transparent" lines="none">
+                        <ion-label color="light">
+                            <div class="title-text-container">
+                                History
+                            </div>
+                        </ion-label>
+                    </ion-item>
+                </div>
+            </div>
+    
+            <div class="outer-item-container" >
+                <div class="item-container">
+
+                    <ion-list class="transparent">
+                        ${histStatus.map(entry=>`
+                            <ion-item id=${entry.id} color="transparent" lines="none" button onclick="viewHistoryDetail(this.id)">
+                                <div class="history-entry">
+                                    <ion-label color="light">
+                                        <div class="hist-timestamp-container">
+                                        ${entry.dateTime}
+                                        </div>
+                                    </ion-label>
+                                    <ion-label color="light">
+                                        <div class="hist-type-container">
+                                        ${entry.type}
+                                        </div>
+                                    </ion-label>
+                                </div>
+                            </ion-item>
+                        `).join('\n')}
+                    </ion-list>
+    
+                </div>
+            </div>
+    
+            </div>
+            </ion-content>
+        `
+    }
+})
+
+customElements.define('nav-history-detail', class NavHistDetail extends HTMLElement{
+    connectedCallback(){
+        console.log(this.histEntry)
+        this.innerHTML = `
+        <ion-header class="ion-no-border">
+        <ion-toolbar transparent>
+            <ion-buttons slot="start">
+                <ion-back-button color="light" defaultHref="/"></ion-back-button>
+            </ion-buttons>
+        </ion-toolbar>
+        </ion-header>
+        <ion-content fullscreen >
+        <div class="ar-app-container">
+        <div class="sr-title">
+            <div class="title-container">
+                <ion-item color="transparent" lines="none">
+                    <ion-label color="light">
+                        <div class="title-text-container help-title">
+                            Details
+                        </div>
+                    </ion-label>
+                </ion-item>
+            </div>
+        </div>
+        
+        <div class="outer-item-container">
+            <div class="item-container">
+        
+                <ion-label color="light">
+                    <div id="d-name" class="daedra-name-text">
+                        ${this.histEntry.type}
+                    </div>
+                </ion-label>
+                <ion-label color="light">
+                    <div id="d-realm" class="daedra-realm-text">
+                        ${this.histEntry.dateTime}
+                    </div>
+                </ion-label>
+        
+                <ion-list class="transparent">
+                    ${this.histEntry.status.map(realm=>`
+                        <ion-item 
+                            id="realm-${realm.id}"  
+                            color="transparent" 
+                            lines="none" 
+                        >
+                            <div class="label-container">
+                                <div class="help-text-container" style="color: #ffffff">
+                                    ${realms.find(realmData=>realmData.id === realm.realmId).name}: ${realm.realmStatus}
+                                </div>
+                            </div>
+                        </ion-item>
+                    `).join('\n')}
+                </ion-list>
+
+            </div>
+        </div>
+        
+        </div>
+        </ion-content>
+        `
+    }
+})
+
+customElements.define('nav-faq-detail', class NavFaqDetail extends HTMLElement{
+    connectedCallback(){
+        this.innerHTML=`
+        <ion-header class="ion-no-border">
+            <ion-toolbar transparent>
+                <ion-buttons slot="start">
+                    <ion-back-button color="light" defaultHref="/"></ion-back-button>
+                </ion-buttons>
+            </ion-toolbar>
+            </ion-header>
+            <ion-content fullscreen >
+            <div class="ar-app-container">
+            <div class="sr-title">
+                <div class="title-container">
+                    <ion-item color="transparent" lines="none">
+                        <ion-label color="light">
+                            <div class="title-text-container help-title">
+                                Issue Details
+                            </div>
+                        </ion-label>
+                    </ion-item>
+                </div>
+            </div>
+            
+            <div class="outer-item-container">
+                <div class="item-container">
+            
+                    <ion-label color="light">
+                        <div id="d-name" class="daedra-name-text">
+                            ${this.faqEntry.faq}
+                        </div>
+                    </ion-label>
+            
+                    <ion-list class="transparent">
+                        ${this.faqEntry.checks.map(check=>`
+                            <ion-item 
+                                color="transparent" 
+                                lines="none" 
+                            >
+                                <div class="label-container">
+                                    <div class="help-text-container" style="color: #ffffff">
+                                        ${realms.find(realmData=>realmData.id === check).name} : ${checkData[check-1]}
+                                    </div>
+                                </div>
+                            </ion-item>
+                        `).join('\n')}
+                    </ion-list>
+    
+                </div>
+            </div>
+            
+            </div>
+            </ion-content>
+        `
+    }
+})
 
 const nav = document.querySelector('ion-nav')
 

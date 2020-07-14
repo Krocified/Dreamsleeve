@@ -1,0 +1,15 @@
+.hist-timestamp-container{
+    font-family: 'Staatliches';
+    font-size: 6vw;
+    margin-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 2px;
+}
+
+.hist-type-container{
+    font-family: 'Staatliches';
+    font-size: 6vw;
+    margin-left: 5px;
+    /* padding-top: 2px; */
+    padding-bottom: 10px;
+}

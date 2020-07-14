@@ -28,6 +28,16 @@
     background-size: contain;
 }
 
+.hist-banner{
+    background-image: url("./img/hist.jpg");
+    height: 50vw;
+    max-width: 100%;
+    background-attachment: fixed;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
 .ar-app-container {
     background-color: #161616;
     margin-top: -10px;
@@ -115,4 +125,9 @@
 
 .help-title{
     margin-top: 20vw;
+}
+
+.history-entry{
+    display: flex;
+    flex-direction: column;
 }

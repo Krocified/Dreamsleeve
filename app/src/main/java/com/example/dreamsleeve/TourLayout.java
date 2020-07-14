@@ -65,7 +65,7 @@ public class TourLayout extends AppCompatActivity {
     }
 
     public void addDotIndicator(int position){
-        dots = new TextView[3];
+        dots = new TextView[4];
         mDotLayout.removeAllViews();
         for(int i=0;i<dots.length; i++){
             dots[i] = new TextView(this);

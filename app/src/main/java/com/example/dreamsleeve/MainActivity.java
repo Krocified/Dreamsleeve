@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mWebView = findViewById(R.id.mainwv);
-        mWebView.setWebViewClient(new WebViewClient());
+        mWebView.setWebViewClient(new WebViewClient(){
+        });
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
@@ -54,4 +55,5 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, TourLayout.class));
         finish();
     }
+
 }
