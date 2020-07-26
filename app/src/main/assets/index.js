@@ -19,7 +19,10 @@ buttonClick = (clicked_id) => {
     } else if(click==="about"){
         Android.showAbout()
     } else if(click==="history"){
-        nav.push('nav-history')
+        let historyTest = Android.getSessionData()
+        let historyArray = JSON.parse(historyTest)
+        Android.display(JSON.stringify(historyArray))
+        nav.push('nav-history', {historyArray})
     } else {
         console.log(click)
     }
@@ -34,7 +37,6 @@ displayRealm = (realm_id) => {
 
     realmStatus=[]
     const isSuccessful = Android.checkRealmSpecific()
-    // const isSuccessful = "YES"
     checkData[realm_id-1] = isSuccessful
 
     const realmObject = {
@@ -43,23 +45,17 @@ displayRealm = (realm_id) => {
     }
 
     realmStatus.push(realmObject)
-    let today = new Date();
-    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    let dateTime = date+' '+time;
+    const dateTime = Android.getDateTime();
+    const idCount = Android.getIdCount()
 
     const currState = {
-        id:histStatus.length+1,
+        id: idCount,
         type: "Selective Realms",
         dateTime: dateTime,
         status: realmStatus
     }
 
-    histStatus.unshift(currState)
-
     const singleJSON = JSON.stringify(currState)
-    console.log(singleJSON)
-    Android.display(singleJSON)
     Android.testSessionData(singleJSON)
     
     nav.push('nav-details', { realm , isSuccessful})
@@ -138,7 +134,7 @@ customElements.define('nav-details', class NavDetails extends HTMLElement{
                 </ion-label>
 
                 <ion-label color="light">
-                    <div id="d-is-successful" class="daedra-name-text">
+                    <div id="d-is-successful" class="daedra-name-text" style="color: ${this.isSuccessful==="Successful"?"#02c449":"#d90707"}">
                         ${this.isSuccessful}
                     </div>
                 </ion-label>
@@ -208,6 +204,7 @@ customElements.define('nav-faq', class NavFaq extends HTMLElement{
 })
 
 customElements.define('nav-history', class NavHist extends HTMLElement{
+    
     connectedCallback(){
         this.innerHTML=`
             <ion-header class="ion-no-border">
@@ -218,7 +215,7 @@ customElements.define('nav-history', class NavHist extends HTMLElement{
             </ion-toolbar>
             </ion-header>
             <ion-content fullscreen >
-            <div class="help-app-container">
+            <div class="faq-detail-container">
             <div class="sr-title">
                 <div class="hist-banner"></div>
                 <div class="title-container">
@@ -236,7 +233,7 @@ customElements.define('nav-history', class NavHist extends HTMLElement{
                 <div class="item-container">
 
                     <ion-list class="transparent">
-                        ${histStatus.map(entry=>`
+                        ${this.historyArray.map(entry=>`
                             <ion-item id=${entry.id} color="transparent" lines="none" button onclick="viewHistoryDetail(this.id)">
                                 <div class="history-entry">
                                     <ion-label color="light">
@@ -265,7 +262,6 @@ customElements.define('nav-history', class NavHist extends HTMLElement{
 
 customElements.define('nav-history-detail', class NavHistDetail extends HTMLElement{
     connectedCallback(){
-        console.log(this.histEntry)
         this.innerHTML = `
         <ion-header class="ion-no-border">
         <ion-toolbar transparent>
@@ -275,7 +271,7 @@ customElements.define('nav-history-detail', class NavHistDetail extends HTMLElem
         </ion-toolbar>
         </ion-header>
         <ion-content fullscreen >
-        <div class="ar-app-container">
+        <div class="faq-detail-container">
         <div class="sr-title">
             <div class="title-container">
                 <ion-item color="transparent" lines="none">
@@ -310,7 +306,7 @@ customElements.define('nav-history-detail', class NavHistDetail extends HTMLElem
                             lines="none" 
                         >
                             <div class="label-container">
-                                <div class="help-text-container" style="color: #ffffff">
+                                <div class="help-text-container" style="color: ${realm.realmStatus==="Successful"?"#02c449":"#d90707"}">
                                     ${realms.find(realmData=>realmData.id === realm.realmId).name}: ${realm.realmStatus}
                                 </div>
                             </div>
@@ -367,7 +363,7 @@ customElements.define('nav-faq-detail', class NavFaqDetail extends HTMLElement{
                                 lines="none" 
                             >
                                 <div class="label-container">
-                                    <div class="help-text-container" style="color: #ffffff">
+                                    <div class="help-text-container" style="color: ${checkData[check-1]==="Successful"?"#02c449":"#d90707"}">
                                         ${realms.find(realmData=>realmData.id === check).name} : ${checkData[check-1]}
                                     </div>
                                 </div>

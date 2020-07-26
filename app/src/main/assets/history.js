@@ -1,5 +1,7 @@
 function viewHistoryDetail(histId){
-    const histEntry = histStatus[histId-1]
+    const historyTest = Android.getSessionData()
+    const historyArray = JSON.parse(historyTest)
+    const histEntry = historyArray[historyArray.length-histId]
     nav.push('nav-history-detail', {histEntry})
 }
 

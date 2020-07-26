@@ -9,14 +9,27 @@ import android.webkit.JavascriptInterface;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Deque;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class jsInterface {
     private static final String TAG = "Dreamsleeve";
+    Deque<JSONObject> sessionData = new LinkedList<JSONObject>();
+    private int idCount = 0;
+    private Calendar mCalendar;
+    private SimpleDateFormat mSimpleDateFormat;
     Context mContext;
 
     jsInterface(Context c){
@@ -58,6 +71,7 @@ public class jsInterface {
     @JavascriptInterface
     public void testSessionData(String sessionJSON) throws JSONException {
         JSONObject sess = new JSONObject(sessionJSON);
+        sessionData.addFirst(sess);
         int id = sess.getInt("id");
         String dateTime = sess.getString("dateTime");
         JSONArray checkStatus = sess.getJSONArray("status");
@@ -72,7 +86,8 @@ public class jsInterface {
             String realmStatus = realmEntry.getString("realmStatus");
             Log.d(TAG, "testSess: realmStatus: "+realmStatus);
         }
-        Log.d(TAG, "sessData: =============================================");
+        Log.d(TAG, "testSess: =============================================");
+
 
     }
 
@@ -81,6 +96,36 @@ public class jsInterface {
         String status = new LogicEngine().checkRealmStatus();
         return status;
     }
+
+    @JavascriptInterface
+    public String getSessionData(){
+        Object[] sessionArray = sessionData.toArray();
+        int length = sessionArray.length;
+        if(length==0) return "[]";
+        String[] sess = new String[length];
+        for(int i=0;i<length;i++){
+            sess[i] = sessionArray[i].toString();
+        }
+
+        String sessJson = Arrays.toString(sess);
+        Log.d(TAG, "sessJson: "+sessJson);
+
+        return sessJson;
+    }
+
+    @JavascriptInterface
+    public int getIdCount(){
+        return ++idCount;
+    }
+
+    @JavascriptInterface
+    public String getDateTime() {
+        mCalendar = Calendar.getInstance();
+        mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateTime = mSimpleDateFormat.format(mCalendar.getTime());
+        return dateTime;
+    }
+
 
 }
 

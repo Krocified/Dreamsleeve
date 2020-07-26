@@ -13,3 +13,9 @@
     /* padding-top: 2px; */
     padding-bottom: 10px;
 }
+
+.faq-detail-container{
+    background-color: #161616;
+    margin-top: -10px;
+    min-height: 150%;
+}

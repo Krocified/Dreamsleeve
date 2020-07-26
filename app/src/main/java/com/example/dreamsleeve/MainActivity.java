@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -12,6 +13,7 @@ import android.webkit.WebViewClient;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "Dreamsleeve";
     private WebView mWebView;
     private String filePath = "file:android_asset/";
     private String fileName = "index.html";
@@ -43,13 +45,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack()) {
+    public void onBackPressed(){
+        Log.d(TAG, "Back: "+mWebView.canGoBack());
+        if(mWebView.canGoBack()) {
             mWebView.goBack();
-            return true;
+        } else {
+            super.onBackPressed();
         }
-        return super.onKeyDown(keyCode, event);
     }
+
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if ((keyCode == KeyEvent.KEYCODE_BACK) && mWebView.canGoBack()) {
+//            mWebView.goBack();
+//            return true;
+//        } else return super.onKeyDown(keyCode, event);
+//    }
 
     public void showSlides(){
         startActivity(new Intent(MainActivity.this, TourLayout.class));

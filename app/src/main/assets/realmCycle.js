@@ -18,7 +18,7 @@ go = () => {
 
     realms.forEach((realm, id)=>{
         setTimeout(()=>
-            traverse(realm, id), id*500
+            traverse(realm, id), id*750
         )
     })
  
@@ -41,9 +41,7 @@ traverse = (realm, id) => {
     currLogo.src = realm.icon
     currProgress.value += 0.0625
 
-    // Android.display(id)
     const isSuccessful = Android.checkRealmSpecific()
-    // const isSuccessful = "YES"
     checkData[id] = isSuccessful
     
     const realmObject = {
@@ -52,28 +50,24 @@ traverse = (realm, id) => {
     }
 
     realmStatus.push(realmObject)
+    onwards(currName.innerHTML)
     
-    if(realm.id===15){
+    if(realm.id===16){
         document.getElementById("d-complete-msg").innerHTML = "You have returned."
-
-        let today = new Date();
-        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        let dateTime = date+' '+time;
+        
+        const dateTime = Android.getDateTime();
+        const idCount = Android.getIdCount()
 
         const currState = {
-            id:histStatus.length+1,
+            id: idCount,
             type: "All Realms",
             dateTime: dateTime,
             status: realmStatus
         }
-        
-        histStatus.unshift(currState)        
-
+      
         const sessionJSON = JSON.stringify(currState)
-        console.log(sessionJSON)
         Android.testSessionData(sessionJSON)
     }
-    onwards(currName.innerHTML)
+    
 
 }
